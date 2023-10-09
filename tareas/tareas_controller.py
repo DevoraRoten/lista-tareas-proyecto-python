@@ -47,3 +47,7 @@ def update_tarea(id: int, tarea: TareaPost):
             array_tareas[index]['fecha_vencimiento'] = tarea.fecha_vencimiento
             array_tareas[index]['estado'] = tarea.estado
     return array_tareas
+
+@tareas.delete('/tareas{id}')
+def delete_tarea(id:int):
+    return list(filter(lambda item: item['id']==id, array_tareas))
