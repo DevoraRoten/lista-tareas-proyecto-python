@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from models.tarea import Tarea
 from models.tarea import TareaPost
-from BD.funciones_BD import crear_tabla, borrar_tabla, guardar_tarea, listar_tareas, eliminar_tarea
+from BD.funciones_BD import crear_tabla, borrar_tabla, guardar_tarea, listar_tareas, eliminar_tarea, get_tarea_byid, updated_tarea
 #import tkinter as tk
 
 tareas = APIRouter()
@@ -47,18 +47,17 @@ def get_tareas():
 
 @tareas.get('/tareas/{id}')
 def get_tarea(id: int):
-    return list(filter(lambda item: item['id'] == id, array_tareas))
+    return get_tarea_byid(id)
 
 
 @tareas.post('/tareas')
 def post_tareas(tarea: TareaPost):
-    guardar_tarea(tarea)
-    array_tareas.append(tarea)
-    return array_tareas
+    return guardar_tarea(tarea)
 
 
 @tareas.put('/tareas/{id}')
 def update_tarea(id: int, tarea: TareaPost):
+    updated_tarea(tarea, id)
     for index, item in enumerate(array_tareas):
         if item['id'] == id:
             array_tareas[index]['titulo'] = tarea.titulo

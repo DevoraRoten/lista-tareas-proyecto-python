@@ -33,11 +33,16 @@ def guardar_tarea(tarea):
     INSERT INTO tareas (titulo, descripcion, fecha_vencimiento, estado)
     VALUES ('{tarea.titulo}', '{tarea.descripcion}', '{tarea.fecha_vencimiento}', '{tarea.estado}')
     """
+    sql_data= 'SELECT * FROM tareas'
+    tareas=[]
     try:
         conexion.cursor.execute(sql)
+        conexion.cursor.execute(sql_data)
+        tareas = conexion.cursor.fetchall()
         conexion.cerrar()
     except:
         print('error al agregar')
+    return tareas
 
 def listar_tareas():
     conexion= ConexionBD()
@@ -61,3 +66,30 @@ def eliminar_tarea(id):
         conexion.cerrar()
     except:
         print('error al elimnar tarea')
+    
+def get_tarea_byid(id):
+    conexion = ConexionBD()
+    sql = f'SELECT * FROM tareas where id= {id}'
+    tarea= ''
+    try:
+        conexion.cursor.execute(sql)
+        tarea = conexion.cursor.fetchone()
+        conexion.cerrar()
+    except:
+        print('error al buscar tarea')
+
+    return tarea
+
+def updated_tarea(tarea, id):
+    conexion = ConexionBD()
+    sql =f"""
+    UPDATE tareas
+    SET (titulo, descripcion, fecha_vencimiento, estado) 
+    values ('{tarea.titulo}', '{tarea.descripcion}', '{tarea.fecha_vencimiento}', '{tarea.estado}')
+    WHERE id={id}
+    """
+    try: 
+        conexion.cursor.execute(sql)
+        conexion.cerrar()
+    except:
+        print('error al actualizar')
