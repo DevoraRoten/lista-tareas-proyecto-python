@@ -54,18 +54,33 @@ def listar_tareas():
         lista_tareas = conexion.cursor.fetchall()
         conexion.cerrar()
     except:
-        print('base de datos no creada')
+        lista_tareas='error al traer la lista de tareas'
     
     return lista_tareas
 
 def eliminar_tarea(id):
     conexion = ConexionBD()
-    sql = f'DELETE FROM tareas WHERE id ={id}'
+    
+    sql = f'SELECT * FROM tareas where id= {id}'
+    tarea= ''
     try:
         conexion.cursor.execute(sql)
+        tarea = conexion.cursor.fetchone()
         conexion.cerrar()
     except:
-        print('error al elimnar tarea')
+        tarea ='error al buscar tarea'
+    if (tarea is None):
+        res = "No hay una tarea asociada al id {id} ingresado"
+    else:
+        sql = f'DELETE FROM tareas WHERE id ={id}'
+        res=''
+        try:
+            conexion.cursor.execute(sql)
+            conexion.cerrar()
+            res= 'Tarea con id: {id} eliminada correctamente'
+        except:
+            res='error al elimnar tarea'
+    return res
     
 def get_tarea_byid(id):
     conexion = ConexionBD()
@@ -76,20 +91,28 @@ def get_tarea_byid(id):
         tarea = conexion.cursor.fetchone()
         conexion.cerrar()
     except:
-        print('error al buscar tarea')
-
+        tarea ='error al buscar tarea'
+    if (tarea is None):
+        tarea = "No hay una tarea asociada al id ingresado"
+        
     return tarea
 
 def updated_tarea(tarea, id):
     conexion = ConexionBD()
+    resp= ''
     sql =f"""
     UPDATE tareas
-    SET (titulo, descripcion, fecha_vencimiento, estado) 
-    values ('{tarea.titulo}', '{tarea.descripcion}', '{tarea.fecha_vencimiento}', '{tarea.estado}')
+    SET 
+    titulo = '{tarea.titulo}', 
+    descripcion = '{tarea.descripcion}', 
+    fecha_vencimiento = '{tarea.fecha_vencimiento}', 
+    estado = '{tarea.estado}'
     WHERE id={id}
     """
     try: 
         conexion.cursor.execute(sql)
         conexion.cerrar()
+        resp ='tarea actualizada correctamente'
     except:
-        print('error al actualizar')
+        resp = 'error al actualizar'
+    return resp

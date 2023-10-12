@@ -57,17 +57,9 @@ def post_tareas(tarea: TareaPost):
 
 @tareas.put('/tareas/{id}')
 def update_tarea(id: int, tarea: TareaPost):
-    updated_tarea(tarea, id)
-    for index, item in enumerate(array_tareas):
-        if item['id'] == id:
-            array_tareas[index]['titulo'] = tarea.titulo
-            array_tareas[index]['descripcion'] = tarea.descripcion
-            array_tareas[index]['fecha_vencimiento'] = tarea.fecha_vencimiento
-            array_tareas[index]['estado'] = tarea.estado
-    return array_tareas
+    return updated_tarea(tarea, id)
 
 
 @tareas.delete('/tareas{id}')
 def delete_tarea(id: int):
-    eliminar_tarea(id)
-    return 'tarea eliminadda'
+    return eliminar_tarea(id)
