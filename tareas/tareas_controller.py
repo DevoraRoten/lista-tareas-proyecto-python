@@ -1,38 +1,9 @@
 from fastapi import APIRouter
 from models.tarea import Tarea
 from models.tarea import TareaPost
-from BD.funciones_BD import crear_tabla, borrar_tabla, guardar_tarea, listar_tareas, eliminar_tarea, get_tarea_byid, updated_tarea
-#import tkinter as tk
+from tareas.tareas_service import crear_tabla, borrar_tabla, guardar_tarea, listar_tareas, eliminar_tarea, get_tarea_byid, updated_tarea
 
 tareas = APIRouter()
-
-
-#def menu_tareas():
-#    root = tk.Tk()
-#    root.title('hola')
-#    root.mainloop()
-
-
-#if __name__ == '__menu_tareas__':
-#    menu_tareas()
-
-array_tareas = [
-    {
-        "id": 1,
-        "titulo": "tarea 1",
-        "descripcion": "desarrollr metodo get para las tareas creadas",
-        "fecha_vencimiento": "1 de Septiembre de 2023",
-        "estado": 1
-    },
-    {
-        "id": 2,
-        "titulo": "tarea 2",
-        "descripcion": "desarrollr metodo post para crear una nueva tarea",
-        "fecha_vencimiento": "20 de Septiembre de 2023",
-        "estado": 1
-    }
-]
-
 
 @tareas.get('/')
 def saludo():

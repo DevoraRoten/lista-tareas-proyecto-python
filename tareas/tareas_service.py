@@ -28,10 +28,19 @@ def borrar_tabla():
 
 def guardar_tarea(tarea):
     conexion = ConexionBD()
-    print('tarea a agregar: ', tarea)
+    try:
+        titulo= tarea['titulo']
+        descripcion= tarea['descripcion']
+        fecha_vencimiento= tarea['fecha_vencimiento']
+        estado= tarea['estado']
+    except:
+        titulo=tarea.titulo
+        descripcion= tarea.descripcion
+        fecha_vencimiento=tarea.fecha_vencimiento
+        estado=tarea.estado
     sql = f"""
     INSERT INTO tareas (titulo, descripcion, fecha_vencimiento, estado)
-    VALUES ('{tarea.titulo}', '{tarea.descripcion}', '{tarea.fecha_vencimiento}', '{tarea.estado}')
+    VALUES ('{titulo}', '{descripcion}', '{fecha_vencimiento}', '{estado}')
     """
     sql_data= 'SELECT * FROM tareas'
     tareas=[]
@@ -55,7 +64,7 @@ def listar_tareas():
         conexion.cerrar()
     except:
         lista_tareas='error al traer la lista de tareas'
-    
+    print(lista_tareas)
     return lista_tareas
 
 def eliminar_tarea(id):
@@ -94,7 +103,6 @@ def get_tarea_byid(id):
         tarea ='error al buscar tarea'
     if (tarea is None):
         tarea = "No hay una tarea asociada al id ingresado"
-        
     return tarea
 
 def updated_tarea(tarea, id):
@@ -116,3 +124,6 @@ def updated_tarea(tarea, id):
     except:
         resp = 'error al actualizar'
     return resp
+
+def sumar(num1, num2):
+    return num1+num2
