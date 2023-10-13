@@ -26,6 +26,52 @@ def test_listar_tareas():
     assert arr[0][1] == 'tarea test'
 
 
+# agregar una nueva tarea
+def test_guardar_otra_tarea():
+    tarea: TareaPost = {
+        "titulo": 'segunda tarea test',
+        "descripcion": 'tarea creada para un test unitario',
+        "fecha_vencimiento": '20 de enero',
+        "estado": 3
+    }
+    arreglo = guardar_tarea(tarea)
+    assert len(arreglo) > 0
+    assert len (arreglo) == 2
+
+# traer una tarea por su id
+def test_get_tarea_id():
+    tarea = get_tarea_byid(1) 
+    assert tarea != None
+    assert tarea != "No hay una tarea asociada al id ingresado"
+
+## actualizar segunda tarea agreagada
+def test_actualizar_tarea():
+    tarea: TareaPost = {
+        "titulo": 'segunda tarea test editada',
+        "descripcion": 'tarea creada para un test unitario',
+        "fecha_vencimiento": '20 de enero',
+        "estado": 4
+    }
+    assert updated_tarea(tarea, 2) =='tarea actualizada correctamente'
+
+## traer la lista de tareas, que solo debe haber una porque al principio de las pruebas eliminamos la tabla y solo hemos agragado una tarea
+def test_listar_tareas_2():
+    arr = listar_tareas()
+    assert len(arr) > 0
+    assert len(arr) == 2
+    assert arr[1][1] == 'segunda tarea test editada'
 
 
+### eliminar la tarea con id 2
+def test_eliminar_tarea():
+    assert eliminar_tarea(2) == 'Tarea con id: 2 eliminada correctamente'
 
+## eliminar tarea ya eliminada
+def test_eliminar_tarea_eliminada():
+    assert eliminar_tarea(2) == 'No hay una tarea asociada al id 2 ingresado'
+
+## traer la lista de tareas, que solo debe haber una porque al principio de las pruebas eliminamos la tabla y solo hemos agragado una tarea
+def test_listar_tareas_3():
+    arr = listar_tareas()
+    assert len(arr) > 0
+    assert len(arr) == 1

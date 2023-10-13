@@ -18,7 +18,7 @@ def crear_tabla():
     conexion.cursor.execute(sql)
     conexion.cerrar()
 
-
+## agregar una tarea
 def borrar_tabla():
     conexion = ConexionBD()
     sql = 'DROP TABLE tareas'
@@ -53,6 +53,7 @@ def guardar_tarea(tarea):
         print('error al agregar')
     return tareas
 
+## listar todas las tareas de la base de datos
 def listar_tareas():
     conexion= ConexionBD()
     lista_tareas=[]
@@ -67,6 +68,7 @@ def listar_tareas():
     print(lista_tareas)
     return lista_tareas
 
+#eliminar una tarea
 def eliminar_tarea(id):
     conexion = ConexionBD()
     
@@ -79,20 +81,23 @@ def eliminar_tarea(id):
     except:
         tarea ='error al buscar tarea'
     if (tarea is None):
-        res = "No hay una tarea asociada al id {id} ingresado"
+        res = f'No hay una tarea asociada al id {id} ingresado'
     else:
-        sql = f'DELETE FROM tareas WHERE id ={id}'
+        sql = f"""DELETE FROM tareas WHERE id= {id} """ 
+        print(sql)
         res=''
         try:
+            conexion = ConexionBD()
             conexion.cursor.execute(sql)
             conexion.cerrar()
-            res= 'Tarea con id: {id} eliminada correctamente'
+            res= f'Tarea con id: {id} eliminada correctamente'
         except:
             res='error al elimnar tarea'
     return res
     
 def get_tarea_byid(id):
     conexion = ConexionBD()
+    print('tareaa:')
     sql = f'SELECT * FROM tareas where id= {id}'
     tarea= ''
     try:
@@ -107,14 +112,24 @@ def get_tarea_byid(id):
 
 def updated_tarea(tarea, id):
     conexion = ConexionBD()
+    try:
+        titulo= tarea['titulo']
+        descripcion= tarea['descripcion']
+        fecha_vencimiento= tarea['fecha_vencimiento']
+        estado= tarea['estado']
+    except:
+        titulo=tarea.titulo
+        descripcion= tarea.descripcion
+        fecha_vencimiento=tarea.fecha_vencimiento
+        estado=tarea.estado
     resp= ''
     sql =f"""
     UPDATE tareas
     SET 
-    titulo = '{tarea.titulo}', 
-    descripcion = '{tarea.descripcion}', 
-    fecha_vencimiento = '{tarea.fecha_vencimiento}', 
-    estado = '{tarea.estado}'
+    titulo = '{titulo}',
+    descripcion = '{descripcion}', 
+    fecha_vencimiento = '{fecha_vencimiento}', 
+    estado = '{estado}'
     WHERE id={id}
     """
     try: 
@@ -124,6 +139,3 @@ def updated_tarea(tarea, id):
     except:
         resp = 'error al actualizar'
     return resp
-
-def sumar(num1, num2):
-    return num1+num2
