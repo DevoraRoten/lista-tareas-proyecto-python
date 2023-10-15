@@ -22,11 +22,11 @@ uvicorn main:app --reload
     {
         "titulo": "string",
         "descripcion": "string",
-        "fecha_vencimiento": "string",
+        "fecha_vencimiento": "2023-10-15",
         "estado": 0
     }
 
-    -donde el titulo, descripcion, fecha_vencimiento deben tener un valor string y el estado debe ser un valor numerico
+    -donde el titulo y descripcion deben tener un valor string, "fecha_vencimiento" de tipo date y el estado debe ser un valor numerico
 
     2.5 para editar una tarea agregada se debe utilizar el método pu con el siguiente endpoint
     PUT -> http://localhost:8000/tareas/id

@@ -12,7 +12,7 @@ def test_guardar_tarea():
     tarea: TareaPost = {
         "titulo": 'tarea test',
         "descripcion": 'tarea creada para un test unitario',
-        "fecha_vencimiento": '15 de enero',
+        "fecha_vencimiento": '2023-10-15',
         "estado": 2
     }
     arreglo = guardar_tarea(tarea)
@@ -31,7 +31,7 @@ def test_guardar_otra_tarea():
     tarea: TareaPost = {
         "titulo": 'segunda tarea test',
         "descripcion": 'tarea creada para un test unitario',
-        "fecha_vencimiento": '20 de enero',
+        "fecha_vencimiento": '2023-10-15',
         "estado": 3
     }
     arreglo = guardar_tarea(tarea)
@@ -49,7 +49,7 @@ def test_actualizar_tarea():
     tarea: TareaPost = {
         "titulo": 'segunda tarea test editada',
         "descripcion": 'tarea creada para un test unitario',
-        "fecha_vencimiento": '20 de enero',
+        "fecha_vencimiento": '2023-10-15',
         "estado": 4
     }
     assert updated_tarea(tarea, 2) =='tarea actualizada correctamente'
