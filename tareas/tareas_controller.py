@@ -1,27 +1,27 @@
 from fastapi import APIRouter
 from models.tarea import Tarea
 from models.tarea import TareaPost
-from tareas.tareas_service import crear_tabla, borrar_tabla, guardar_tarea, listar_tareas, eliminar_tarea, get_tarea_byid, updated_tarea, get_tarea_by_estado
+from tareas.tareas_service import crear_tabla, borrar_tabla, guardar_tarea, listar_tareas, eliminar_tarea, get_tarea_byid, updated_tarea, get_tarea_by_estado, cambiarFormato, cambiarFormatoOne
 
 tareas = APIRouter()
 
 
 @tareas.get('/tareas')
 def get_tareas():
-    return listar_tareas()
+    return cambiarFormato(listar_tareas())
 
 
 @tareas.get('/tareas/{id}')
 def get_tarea(id: int):
-    return get_tarea_byid(id)
+    return cambiarFormatoOne(get_tarea_byid(id))
 
 @tareas.get('/filtro/{estado}')
 def get_tarea_filtro(estado: int):
-    return get_tarea_by_estado(estado)
+    return cambiarFormato(get_tarea_by_estado(estado))
 
 @tareas.post('/tareas')
 def post_tareas(tarea: TareaPost):
-    return guardar_tarea(tarea)
+    return cambiarFormato(guardar_tarea(tarea))
 
 
 @tareas.put('/tareas/{id}')

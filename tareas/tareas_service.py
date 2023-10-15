@@ -1,5 +1,5 @@
 from BD.conexion_bd import ConexionBD
-from models.tarea import TareaPost
+from models.tarea import TareaPost, Tarea
 from fastapi import HTTPException
 
 
@@ -152,3 +152,27 @@ def get_tarea_by_estado(estado):
     if (len(tarea)==0):
         raise HTTPException(status_code=404, detail=f'No hay una tarea asociada al estado ingresado')
     return tarea
+
+
+def cambiarFormato(tareas):
+    auxTareas=[]
+    for tarea in tareas:
+        aux={
+            "id": tarea[0],
+            "titulo": tarea[1],
+            "descripcion": tarea[2],
+            "fecha_vencimiento": tarea[3],
+            "estado": tarea[4]
+        }
+        auxTareas.append(aux)
+    return auxTareas
+
+def cambiarFormatoOne(tarea):
+    aux= {
+         "id": tarea[0],
+         "titulo": tarea[1],
+         "descripcion": tarea[2],
+         "fecha_vencimiento": tarea[3],
+         "estado": tarea[4]
+    }
+    return aux
