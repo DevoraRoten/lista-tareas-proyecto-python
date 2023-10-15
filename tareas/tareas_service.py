@@ -65,7 +65,6 @@ def listar_tareas():
         conexion.cerrar()
     except:
         lista_tareas='error al traer la lista de tareas'
-    print(lista_tareas)
     return lista_tareas
 
 #eliminar una tarea
@@ -84,7 +83,6 @@ def eliminar_tarea(id):
         res = f'No hay una tarea asociada al id {id} ingresado'
     else:
         sql = f"""DELETE FROM tareas WHERE id= {id} """ 
-        print(sql)
         res=''
         try:
             conexion = ConexionBD()
@@ -97,7 +95,6 @@ def eliminar_tarea(id):
     
 def get_tarea_byid(id):
     conexion = ConexionBD()
-    print('tareaa:')
     sql = f'SELECT * FROM tareas where id= {id}'
     tarea= ''
     try:
@@ -139,3 +136,17 @@ def updated_tarea(tarea, id):
     except:
         resp = 'error al actualizar'
     return resp
+
+def get_tarea_by_estado(estado):
+    conexion = ConexionBD()
+    sql = f'SELECT * FROM tareas where estado= {estado}'
+    tarea= ''
+    try:
+        conexion.cursor.execute(sql)
+        tarea = conexion.cursor.fetchall()
+        conexion.cerrar()
+    except:
+        tarea ='error al buscar tarea por estado'
+    if (len(tarea)==0):
+        tarea = "No hay una tarea asociada al estado ingresado"
+    return tarea

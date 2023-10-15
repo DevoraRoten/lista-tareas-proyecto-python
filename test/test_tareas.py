@@ -13,7 +13,7 @@ def test_guardar_tarea():
         "titulo": 'tarea test',
         "descripcion": 'tarea creada para un test unitario',
         "fecha_vencimiento": '15 de enero',
-        "estado": 1
+        "estado": 2
     }
     arreglo = guardar_tarea(tarea)
     assert len(arreglo) > 0
@@ -60,6 +60,16 @@ def test_listar_tareas_2():
     assert len(arr) > 0
     assert len(arr) == 2
     assert arr[1][1] == 'segunda tarea test editada'
+
+def traer_tareas_por_estado():
+    tareas = get_tarea_by_estado(4)
+    assert len(tareas)==1
+    assert tareas[0][0]==2
+
+def traer_tareas_por_estado_2():
+    tareas = get_tarea_by_estado(2)
+    assert len(tareas)==1
+    assert tareas[0][0]==1
 
 
 ### eliminar la tarea con id 2
