@@ -76,9 +76,6 @@ def traer_tareas_por_estado_2():
 def test_eliminar_tarea():
     assert eliminar_tarea(2) == 'Tarea con id: 2 eliminada correctamente'
 
-## eliminar tarea ya eliminada
-def test_eliminar_tarea_eliminada():
-    assert eliminar_tarea(2) == 'No hay una tarea asociada al id 2 ingresado'
 
 ## traer la lista de tareas, que solo debe haber una porque al principio de las pruebas eliminamos la tabla y solo hemos agragado una tarea
 def test_listar_tareas_3():

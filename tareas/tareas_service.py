@@ -1,5 +1,6 @@
 from BD.conexion_bd import ConexionBD
 from models.tarea import TareaPost
+from fastapi import HTTPException
 
 
 def crear_tabla():
@@ -64,7 +65,7 @@ def listar_tareas():
         lista_tareas = conexion.cursor.fetchall()
         conexion.cerrar()
     except:
-        lista_tareas='error al traer la lista de tareas'
+        raise HTTPException(status_code=400, detail='error al traer la lista de tareas')
     return lista_tareas
 
 #eliminar una tarea
@@ -80,7 +81,7 @@ def eliminar_tarea(id):
     except:
         tarea ='error al buscar tarea'
     if (tarea is None):
-        res = f'No hay una tarea asociada al id {id} ingresado'
+        raise HTTPException(status_code=404, detail=f'No hay una tarea asociada al id {id} ingresado')
     else:
         sql = f"""DELETE FROM tareas WHERE id= {id} """ 
         res=''
@@ -90,7 +91,7 @@ def eliminar_tarea(id):
             conexion.cerrar()
             res= f'Tarea con id: {id} eliminada correctamente'
         except:
-            res='error al elimnar tarea'
+            raise HTTPException(status_code=400, detail='error al eliminar tarea')
     return res
     
 def get_tarea_byid(id):
@@ -102,12 +103,13 @@ def get_tarea_byid(id):
         tarea = conexion.cursor.fetchone()
         conexion.cerrar()
     except:
-        tarea ='error al buscar tarea'
+         raise HTTPException(status_code=400, detail='error al buscar tarea')
     if (tarea is None):
-        tarea = "No hay una tarea asociada al id ingresado"
+        raise HTTPException(status_code=404, detail=f'No hay una tarea asociada al id {id} ingresado')
     return tarea
 
 def updated_tarea(tarea, id):
+    get_tarea_byid(id)
     conexion = ConexionBD()
     try:
         titulo= tarea['titulo']
@@ -134,7 +136,7 @@ def updated_tarea(tarea, id):
         conexion.cerrar()
         resp ='tarea actualizada correctamente'
     except:
-        resp = 'error al actualizar'
+        raise HTTPException(status_code=400, detail=f'error al actualizar la tarea')
     return resp
 
 def get_tarea_by_estado(estado):
@@ -146,7 +148,7 @@ def get_tarea_by_estado(estado):
         tarea = conexion.cursor.fetchall()
         conexion.cerrar()
     except:
-        tarea ='error al buscar tarea por estado'
+         raise HTTPException(status_code=400, detail=f'error al buscar tarea por estado')
     if (len(tarea)==0):
-        tarea = "No hay una tarea asociada al estado ingresado"
+        raise HTTPException(status_code=404, detail=f'No hay una tarea asociada al estado ingresado')
     return tarea
